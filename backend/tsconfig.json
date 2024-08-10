@@ -33,7 +33,8 @@
       "@seeders/*": ["seeders/*"],
       "@services/*": ["services/*"],
       "@utils/*": ["utils/*"],
-      "@templates/*": ["templates/*"]
+      "@templates/*": ["templates/*"],
+      "@interfaces/*": ["interfaces/*"]
     },
     "plugins": [{ "transform": "ts-optchain/transform" }]
   },

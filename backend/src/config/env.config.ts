@@ -19,7 +19,16 @@ const envsSchema = Joi.object()
       .required(),
     PORT: Joi.number().default(8080),
     JWT_SECRET_TOKEN: Joi.string().required(),
-    SALT_ROUNDS: Joi.number().default(17)
+    SALT_ROUNDS: Joi.number().default(17),
+    DB_PORT: Joi.number().required(),
+    DB_HOST: Joi.string().required(),
+    DB_USER_NAME: Joi.string().required(),
+    DB_PASSWORD: Joi.string().required(),
+    DB_NAME: Joi.string().required(),
+    ALLOWED_DOMAINS: Joi.string().required(),
+    // REDIS_PORT: Joi.number().required(),
+    // REDIS_HOST: Joi.string().required(),
+    // REDIS_PASSWORD: Joi.string().required()
   })
   .unknown(true);
 
@@ -45,5 +54,8 @@ export default {
   databaseName: envVars.DB_NAME,
   jwtSecret: envVars.JWT_SECRET_TOKEN,
   allowedDomains: envVars.ALLOWED_DOMAINS,
-  saltRounds: envVars.SALT_ROUNDS
+  saltRounds: envVars.SALT_ROUNDS,
+  redisPort: envVars.REDIS_PORT,
+  redisHost: envVars.REDIS_HOST,
+  redisPassword: envVars.REDIS_PASSWORD
 };
