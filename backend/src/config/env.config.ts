@@ -2,15 +2,6 @@ import Joi from 'joi';
 import dotenv from 'dotenv'
 dotenv.config()
 
-// All env variables used by the app should be defined in this file.
-
-// To define new env:
-// 1. Add env variable to .env.local file;
-// 2. Provide validation rules for your env in envsSchema;
-// 3. Make it visible outside of this module in export section;
-// 4. Access your env variable only via config file.
-// Do not use process.env object outside of this file.
-
 const envsSchema = Joi.object()
   .keys({
     NODE_ENV: Joi.string()
@@ -26,16 +17,17 @@ const envsSchema = Joi.object()
     DB_PASSWORD: Joi.string().required(),
     DB_NAME: Joi.string().required(),
     ALLOWED_DOMAINS: Joi.string().required(),
-    // REDIS_PORT: Joi.number().required(),
-    // REDIS_HOST: Joi.string().required(),
-    // REDIS_PASSWORD: Joi.string().required()
+    RABBITMQ_URL: Joi.string().required(),
+    MAILTRAP_HOST: Joi.string().required(),
+    MAILTRAP_PORT: Joi.number().required(),
+    MAILTRAP_USERNAME: Joi.string().required(),
+    MAILTRAP_PASSWORD: Joi.string().required()
   })
   .unknown(true);
 
 const { value: envVars, error } = envsSchema
   .prefs({ errors: { label: 'key' } })
   .validate(process.env);
-console.log("pro", process.env.NODE_ENV)
 if (error) {
   throw new Error(
     `Config validation error: ${error.message}. \n
@@ -57,5 +49,12 @@ export default {
   saltRounds: envVars.SALT_ROUNDS,
   redisPort: envVars.REDIS_PORT,
   redisHost: envVars.REDIS_HOST,
-  redisPassword: envVars.REDIS_PASSWORD
+  redisPassword: envVars.REDIS_PASSWORD,
+  rabbitMQUrl: envVars.RABBITMQ_URL,
+  jwtExpirationTime: envVars.JWT_EXPIRES_IN,
+  smtpHost: envVars.MAILTRAP_HOST,
+  smtpPort: envVars.MAILTRAP_PORT,
+  smtpUser: envVars.MAILTRAP_USERNAME,
+  smtpPassword: envVars.MAILTRAP_PASSWORD
+
 };

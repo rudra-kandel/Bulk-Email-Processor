@@ -1,17 +1,33 @@
 // src/services/emailLogService.ts
 import { EmailLog } from '@models/EmailLog';
+import EmailTemplate from '@models/EmailTemplate';
 import User from '@models/User';
 
 export const saveEmailLog = async (
-    templateId: string,
-    email: string,
+    userId: string,
+    template: {
+        id: string,
+        name: string,
+        subject: string,
+        body: string
+    },
+    userEmail: string,
     status: 'sent' | 'failed' | 'retry',
     errorMessage?: string,
     retryCount: number = 0
 ) => {
+    console.log({
+        templateId: template.id,
+        userId,
+        email: userEmail,
+        status,
+
+    }
+    )
     await EmailLog.create({
-        templateId,
-        email,
+        templateId: template.id,
+        userId,
+        email: userEmail,
         status,
         errorMessage,
         retryCount,

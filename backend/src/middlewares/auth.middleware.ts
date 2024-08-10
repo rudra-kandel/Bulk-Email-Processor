@@ -22,6 +22,7 @@ const authentication = (req: Request, res: Response, next: NextFunction) => {
         //attach the decoded payload to the request context 
 
         httpContext.set('user', decoded)
+        console.log(decoded)
         next();
     } catch (err) {
         if (err instanceof TokenExpiredError) {

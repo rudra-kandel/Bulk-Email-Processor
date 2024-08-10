@@ -1,7 +1,6 @@
+import logger from '@utils/logger';
 import { Sequelize } from 'sequelize';
 import config from './env.config';
-import seedEmailTemplates from '@seeders/emailTemplate.seeder';
-import logger from '@utils/logger';
 const { password, user, host, databaseName } = config;
 
 const sequelize = new Sequelize(

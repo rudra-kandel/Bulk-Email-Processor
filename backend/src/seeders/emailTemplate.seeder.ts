@@ -15,12 +15,12 @@ const seedEmailTemplates = async (): Promise<void> => {
             {
                 name: 'Welcome Email',
                 subject: 'Welcome to Our Service!',
-                body: '<h1>Welcome!</h1><p>Thank you for joining us.</p>',
+                body: '<h1>Welcome! {{userEmail}} </h1><p>Thank you for joining us.</p>',
             },
             {
                 name: 'Password Reset',
                 subject: 'Reset Your Password',
-                body: '<p>Click <a href="{resetLink}">here</a> to reset your password.</p>',
+                body: '<h1>{{userEmail}} </h1> <p> Click <a href="{resetLink}">here</a> to reset your password.</p>',
             },
         ];
 
