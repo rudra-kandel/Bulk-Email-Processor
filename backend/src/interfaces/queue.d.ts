@@ -1,11 +1,15 @@
+import { Channel } from "amqplib";
+
 export interface ConsumerOptions<T> {
     queueName: string;
+    options: { durable: boolean }
     processMessage: (msg: T) => Promise<void>;
     maxRetries?: number;
     retryInterval?: number;
     errorHandler?: ErrorHandler<T>;
     successHandler?: SuccessHandler<T>;
-    retryHandler?: RetryHandler<T>
+    retryHandler?: RetryHandler<T>,
+    channel: Channel
 }
 
 export interface QueueConsumer<T> {

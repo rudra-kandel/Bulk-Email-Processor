@@ -1,33 +1,29 @@
 import logger from '@utils/logger';
 import amqp from 'amqplib';
+import config from '@config/env.config'
+import { initializeQueuesAndConsumers } from '@queues/initializeQueueAndConsumer';
 
 let channel: amqp.Channel;
 let connection: amqp.Connection;
-
-const rabbitMQUrl = process.env.RABBITMQ_URL || 'amqp://localhost';
+const { rabbitMQUrl } = config;
 
 export const connectRabbitMQ = async (): Promise<void> => {
     try {
         const connection = await amqp.connect(rabbitMQUrl);
-        // const connection = await amqp.connect({
-        //     hostname: 'localhost',
-        //     username: 'guest',
-        //     password: 'guest',
-        //     reconnectStrategy: (retries) => Math.min(retries * 100, 3000), // Reconnect strategy
-        // });
         channel = await connection.createChannel();
-
-        // await channel.assertQueue('emailQueue', { durable: true });
         logger.info("Connected to Rabbit MQ")
+
+        //Initialize all queues and consumers
+        await initializeQueuesAndConsumers(channel)
 
         connection.on('error', (err) => {
             logger.error('RabbitMQ connection error:', err);
-            setTimeout(connectRabbitMQ, 5000); // Retry connection after 5 seconds
+            reconnectRabbitMQ();
         });
 
         connection.on('close', () => {
             logger.error('RabbitMQ connection closed. Attempting to reconnect...');
-            setTimeout(connectRabbitMQ, 5000); // Retry connection after 5 seconds
+            reconnectRabbitMQ();
         });
 
         channel.on('error', (err) => {
@@ -35,12 +31,17 @@ export const connectRabbitMQ = async (): Promise<void> => {
         });
     } catch (error) {
         logger.error("Failed to connect to rabbit MQ ", error);
-        setTimeout(connectRabbitMQ, 5000);
+        reconnectRabbitMQ()
         // process.exit(1);
     }
 };
 
+const reconnectRabbitMQ = () => {
+    setTimeout(connectRabbitMQ, 5000);
+};
+
 export const getChannel = (): amqp.Channel => channel;
+
 export const closeConnection = async () => {
     if (channel) {
         await channel.close();

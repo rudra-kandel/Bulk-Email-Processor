@@ -1,5 +1,4 @@
 import { initializeDatabase } from '@config/database.config';
-import 'express-async-errors';
 import { connectRabbitMQ } from '@config/rabbitmq.config';
 import errorHandler from '@middlewares/errorHandler.middleware';
 import seedEmailTemplates from '@seeders/emailTemplate.seeder';
@@ -8,6 +7,7 @@ import api from 'api';
 import constants from 'constants/constants';
 import cors from 'cors';
 import express, { Application } from 'express';
+import 'express-async-errors';
 import httpContext from 'express-http-context';
 import helmet from 'helmet';
 
@@ -30,11 +30,15 @@ app.use(cors(corsOptionsDelegate));
 initializeDatabase().then(async () => {
     await seedEmailTemplates()
 })
-
 //connect rabbitmq
-connectRabbitMQ();
 
-app.use('/api', api);
+
+connectRabbitMQ()
+
+
+
+
+app.use(constants.API_ROOT_PATH, api);
 
 app.use(errorHandler);
 

@@ -4,9 +4,9 @@ import { v7 as uuidV7 } from 'uuid'
 
 class EmailTemplate extends Model {
     declare id: string;
-    // public name!: string;
-    // public subject!: string;
-    // public body!: string;
+    declare name: string;
+    declare subject: string;
+    declare body: string;
 }
 
 EmailTemplate.init({

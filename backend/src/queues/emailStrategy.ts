@@ -11,14 +11,15 @@ export const handleEmailError: ErrorHandler<EmailMessage> = {
         retryCount: number
     ): Promise<void> {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        await saveEmailLog(msg.templateId, msg.email, 'failed', errorMessage, retryCount);
+        await saveEmailLog(msg.userId, msg.template, msg.userEmail, 'failed', errorMessage, retryCount);
     }
 }
 
 // Success Handler Function
 export const handleEmailSuccess: SuccessHandler<EmailMessage> = {
     async handleSuccess(msg: EmailMessage): Promise<void> {
-        await saveEmailLog(msg.templateId, msg.email, 'sent');
+        console.log(msg)
+        await saveEmailLog(msg.userId, msg.template, msg.userEmail, 'sent');
     }
 };
 

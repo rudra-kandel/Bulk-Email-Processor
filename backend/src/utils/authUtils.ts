@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import config from '@config/env.config';
-const { saltRounds, jwtSecret } = config
+const { saltRounds, jwtSecret, jwtExpirationTime } = config
 
 // Hash Password
 export const hashPassword = async (password: string): Promise<string> => {
@@ -15,12 +15,12 @@ export const checkPassword = async (plainPassword: string, hashedPassword: strin
 
 // Generate Email Verification Token
 export const getEmailVerificationToken = (userId: string): string => {
-    return jwt.sign({ userId }, jwtSecret, { expiresIn: '1h' });
+    return jwt.sign({ userId }, jwtSecret, { expiresIn: jwtExpirationTime });
 };
 
 // Generate Access Token
 export const getAccessToken = (userId: string): string => {
-    return jwt.sign({ userId }, jwtSecret, { expiresIn: '1h' });
+    return jwt.sign({ userId }, jwtSecret, { expiresIn: jwtExpirationTime });
 };
 
 // Generate Refresh Token

@@ -28,16 +28,13 @@ const loginUser = async (userDto: ILoginUser) => {
     if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, "Invalid Credentials");
     }
-
     const isMatch = await checkPassword(password, user.password);
     if (!isMatch) {
         throw new AppError(httpStatus.NOT_FOUND, "Invalid Credentials");
     }
-
     if (!user.isVerified) {
         throw new AppError(httpStatus.NOT_FOUND, 'Please verify your email');
     }
-
     const accessToken = getAccessToken(user.id);
     return { accessToken };
 };

@@ -55,14 +55,11 @@ User.init({
 
 });
 
-User.hasMany(EmailLog, {
-    foreignKey: 'userId',
-    as: 'emailLogs',
-});
+// User.hasMany(EmailLog, {
+//     foreignKey: 'userId',
+//     as: 'emailLogs',
+// });
 
-EmailLog.belongsTo(User, {
-    foreignKey: 'userId',
-    as: 'user',
-});
+
 
 export default User;

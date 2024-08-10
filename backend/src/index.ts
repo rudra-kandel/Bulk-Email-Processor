@@ -2,6 +2,7 @@ import app from './app';
 import logger from './utils/logger';
 import { Server } from 'http';
 import dotenv from 'dotenv'
+import { closeConnection } from '@config/rabbitmq.config';
 
 dotenv.config();
 
@@ -11,8 +12,14 @@ const server: Server = app.listen(port, (): void => {
   logger.info(`Server started in http://localhost:${port}`);
 });
 
-const unexpectedErrorHandler = (error: Error): void => {
+const shutDownRabbitMQ = async () => {
+  logger.info("Shutting Down RabbitMQ......")
+  await closeConnection();
+  logger.info("RabbitMQ ShutDown Completed")
+}
+const unexpectedErrorHandler = async (error: Error): Promise<void> => {
   logger.error(error);
+  await shutDownRabbitMQ()
   if (server) {
     server.close(() => {
       logger.info('Server closed');
@@ -22,8 +29,9 @@ const unexpectedErrorHandler = (error: Error): void => {
 };
 
 process.on('uncaughtException', unexpectedErrorHandler);
-process.on('unhandledRejection', (error: Error) => {
-  throw error;
+process.on('unhandledRejection', async (error: Error) => {
+  await unexpectedErrorHandler(error);
+  process.exit(1);
 });
 
 process.on('SIGTERM', unexpectedErrorHandler);
