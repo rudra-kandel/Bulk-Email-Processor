@@ -5,7 +5,7 @@ import httpStatus from 'http-status';
 import { ILoginUser, IRegisterUser } from '@interfaces/user';
 
 const registerUser = async (userDto: IRegisterUser) => {
-    const { username, email, password } = userDto;
+    const { email, password } = userDto;
 
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
@@ -15,7 +15,6 @@ const registerUser = async (userDto: IRegisterUser) => {
     const hashedPassword = await hashPassword(password);
 
     const newUser = await User.create({
-        username,
         email,
         password: hashedPassword,
     });
@@ -39,8 +38,8 @@ const loginUser = async (userDto: ILoginUser) => {
         throw new AppError(httpStatus.NOT_FOUND, 'Please verify your email');
     }
 
-    const token = getAccessToken(user.id);
-    return token;
+    const accessToken = getAccessToken(user.id);
+    return { accessToken };
 };
 
 const verifyUserEmail = async (userId: string) => {

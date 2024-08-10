@@ -7,7 +7,6 @@ import httpContext from 'express-http-context';
 import httpStatus from 'http-status';
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
-    console.log("here")
     const userDto: IRegisterUser = req.body;
 
     const newUser = await registerUser(userDto);

@@ -6,9 +6,9 @@ import { loginValidationSchema } from '../validations/auth/login.validation';
 
 const router = Router();
 console.log("INSIDE AUTH ROUTES")
+router.post('/login', validateRequest(loginValidationSchema), login);
 router.post('/register', validateRequest(registerValidationSchema), register);
 
-router.post('/login', validateRequest(loginValidationSchema), login);
 
 router.get('/verify/:token', verifyEmail);
 

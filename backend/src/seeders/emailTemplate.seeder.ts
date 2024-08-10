@@ -2,7 +2,7 @@ import EmailTemplate from '@models/EmailTemplate'; // Adjust import based on you
 import logger from '@utils/logger';
 import { Sequelize } from 'sequelize';
 
-const seedEmailTemplates = async (sequelize: Sequelize): Promise<void> => {
+const seedEmailTemplates = async (): Promise<void> => {
     try {
         // await sequelize.authenticate();
         // await sequelize.sync()

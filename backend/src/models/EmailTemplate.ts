@@ -3,10 +3,10 @@ import sequelize from '@config/database.config'
 import { v7 as uuidV7 } from 'uuid'
 
 class EmailTemplate extends Model {
-    public id!: string;
-    public name!: string;
-    public subject!: string;
-    public body!: string;
+    declare id: string;
+    // public name!: string;
+    // public subject!: string;
+    // public body!: string;
 }
 
 EmailTemplate.init({

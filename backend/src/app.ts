@@ -1,6 +1,8 @@
 import { initializeDatabase } from '@config/database.config';
+import 'express-async-errors';
 import { connectRabbitMQ } from '@config/rabbitmq.config';
 import errorHandler from '@middlewares/errorHandler.middleware';
+import seedEmailTemplates from '@seeders/emailTemplate.seeder';
 import corsOptionsDelegate from '@utils/corsOptionDelegate';
 import api from 'api';
 import constants from 'constants/constants';
@@ -25,7 +27,9 @@ app.use(express.urlencoded({ extended: true }));
 //acess for only valid domain
 app.use(cors(corsOptionsDelegate));
 //database connection
-initializeDatabase();
+initializeDatabase().then(async () => {
+    await seedEmailTemplates()
+})
 
 //connect rabbitmq
 connectRabbitMQ();

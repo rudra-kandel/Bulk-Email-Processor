@@ -64,9 +64,4 @@ EmailLog.init({
     tableName: 'email_logs'
 });
 
-EmailLog.belongsTo(User, {
-    foreignKey: 'userId',
-    as: 'user',
-});
-
 export default EmailLog
