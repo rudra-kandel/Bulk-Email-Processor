@@ -23,18 +23,3 @@ export const getEmailTemplates = async (req: express.Request, res: express.Respo
         });
     }
 };
-
-// export const sendBulkEmails = async (req: Request, res: Response, next: NextFunction) => {
-//     const { templateId, users } = req.body;
-
-//     const template = await EmailTemplate.findByPk(templateId);
-//     if (!template) {
-//         return next(new AppError(400, 'Template not found'));
-//     }
-
-//     users.forEach(user => {
-//         emailQueue.add({ user, template, replacements: { name: user.name } });
-//     });
-
-//     sendSuccessResponse(res, 200, 'Emails are being processed.');
-// };
