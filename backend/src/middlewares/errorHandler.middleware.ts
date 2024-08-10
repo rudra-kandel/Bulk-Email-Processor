@@ -11,6 +11,7 @@ const errorHandler = (
   res: Response,
   next: NextFunction,
 ) => {
+  console.log(error, "error herer")
   handleError.handleError(error);
 
   let httpStatusCode: number = httpStatus.INTERNAL_SERVER_ERROR;

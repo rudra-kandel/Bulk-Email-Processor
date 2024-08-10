@@ -1,6 +1,7 @@
 import { Sequelize } from 'sequelize';
 import config from './env.config';
 import seedEmailTemplates from '@seeders/emailTemplate.seeder';
+import logger from '@utils/logger';
 const { password, user, host, databaseName } = config;
 
 const sequelize = new Sequelize(
@@ -17,8 +18,9 @@ const sequelize = new Sequelize(
 export const initializeDatabase = async () => {
     try {
         await sequelize.authenticate();
-        console.log('Database connection has been established successfully.');
-        await sequelize.sync({ alter: true });
+        logger.info('Database connection has been established successfully.');
+        // await sequelize.sync({ force: true });
+        logger.info("Before seeding ......")
         // await seedEmailTemplates(sequelize)
     } catch (error) {
         console.error('Unable to connect to the database:', error);

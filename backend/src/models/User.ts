@@ -4,10 +4,10 @@ import { v4 as uuidV4 } from 'uuid';
 import { EmailLog } from './EmailLog';
 
 class User extends Model {
-    public id!: string;
-    public email!: string;
-    public password!: string;
-    public isVerified!: boolean;
+    declare id: string;
+    declare email: string;
+    declare password: string;
+    declare isVerified: boolean;
 }
 
 User.init({
@@ -58,6 +58,11 @@ User.init({
 User.hasMany(EmailLog, {
     foreignKey: 'userId',
     as: 'emailLogs',
+});
+
+EmailLog.belongsTo(User, {
+    foreignKey: 'userId',
+    as: 'user',
 });
 
 export default User;

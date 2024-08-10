@@ -10,7 +10,6 @@ export default class AppError extends Error {
     code?: string
   ) {
     super(description);
-
     //restoring the prototype chain
     Object.setPrototypeOf(this, new.target.prototype);
 

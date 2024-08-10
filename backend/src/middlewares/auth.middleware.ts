@@ -10,7 +10,9 @@ const { jwtSecret } = config;
 const authentication = (req: Request, res: Response, next: NextFunction) => {
 
     const authHeader = req.header('Authorization') || req.header('RefreshToken');
-    if (!authHeader || authHeader.startsWith('Bearer ')) {
+    console.log(authHeader)
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+
         throw new AppError(httpStatus.FORBIDDEN, "Token not provided")
 
     }
