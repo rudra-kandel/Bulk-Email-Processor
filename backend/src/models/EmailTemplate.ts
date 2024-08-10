@@ -12,7 +12,7 @@ class EmailTemplate extends Model {
 EmailTemplate.init({
     id: {
         type: DataTypes.UUID,
-        defaultValue: () => uuidV7,
+        defaultValue: uuidV7,
         primaryKey: true,
     },
     name: {

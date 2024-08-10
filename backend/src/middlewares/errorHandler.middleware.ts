@@ -36,7 +36,6 @@ const errorHandler = (
     }
   }
   sendErrorResponse(res, httpStatusCode, responseError)
-  res.status(httpStatusCode).json({ status: false, error: responseError });
 };
 
 export default errorHandler

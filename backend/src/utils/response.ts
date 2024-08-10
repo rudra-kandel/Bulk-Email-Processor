@@ -1,7 +1,6 @@
 import { Response } from 'express';
 interface IPagination {
-    currentPage: number;
-    totalPages: number;
+    count: number
 }
 interface IResponse<T> {
     status: string,

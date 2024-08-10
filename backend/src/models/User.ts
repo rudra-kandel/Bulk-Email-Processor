@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '@config/database.config';
-import { v7 as uuidV7 } from 'uuid';
+import { v4 as uuidV4 } from 'uuid';
+import { EmailLog } from './EmailLog';
 
 class User extends Model {
     public id!: string;
@@ -12,8 +13,7 @@ class User extends Model {
 User.init({
     id: {
         type: DataTypes.UUID,
-        defaultValue: () => uuidV7(),
-        autoIncrement: true,
+        defaultValue: uuidV4,
         primaryKey: true,
     },
     email: {
@@ -29,18 +29,35 @@ User.init({
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },
+    createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+    },
 }, {
     sequelize,
     modelName: 'User',
     tableName: 'users',
+    timestamps: true,
     defaultScope: {
         attributes: { exclude: ['password'] },
     },
     scopes: {
         withPassword: {
-            attributes: { include: ['id', 'password'] }, // Include password when explicitly requested
+            attributes: { include: ['id', 'password'] },
         },
     },
+
+});
+
+User.hasMany(EmailLog, {
+    foreignKey: 'userId',
+    as: 'emailLogs',
 });
 
 export default User;

@@ -30,7 +30,7 @@ initializeDatabase();
 //connect rabbitmq
 connectRabbitMQ();
 
-app.use(constants.API_ROOT_PATH, api);
+app.use('/api', api);
 
 app.use(errorHandler);
 
