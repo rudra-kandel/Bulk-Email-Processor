@@ -1,14 +1,19 @@
 import { Router } from 'express';
+import authRoutes from '@routes/auth.route'
+import emailTemplateRoutes from '@routes/emailTemplate.route'
+import logRoutes from '@routes/emailLog.route'
+import logger from '@utils/logger';
 
-const api = () => {
+const api: Router = Router();
 
-    const router: Router = Router();
-    //router.use(user)
+api.use('/auth', authRoutes)
+api.use('/email-template', emailTemplateRoutes)
+api.use('/logs', logRoutes)
 
-    router.all("/*", (req, res) => {
-        res.status(404).json({ status: false, message: "Route not found" });
-    })
+api.all("/*", (req, res) => {
+    logger.info(`Path Not found: ${req.originalUrl}`)
+    res.status(404).json({ status: false, message: "Route not found" });
+})
 
-}
 
 export default api;
