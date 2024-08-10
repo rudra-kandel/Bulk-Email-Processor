@@ -6,7 +6,7 @@ import Handlebars from 'handlebars'
 
 const { smtpHost, smtpPort, smtpUser, smtpPassword } = config
 
-export const sendMail = (template: { id: string, name: string, body: string, subject: string }, userEmail: string) => {
+export const sendMail = (template: { id: string, name: string, body: string, subject: string }, userEmail: string, link?: string) => {
     const transporter = nodemailer.createTransport({
         host: smtpHost,
         port: smtpPort,
@@ -17,7 +17,9 @@ export const sendMail = (template: { id: string, name: string, body: string, sub
     })
     const compileTemplate = Handlebars.compile(template.body)
     console.log(userEmail)
-    const html = compileTemplate({ userEmail })
+    console.log(link)
+    const html = compileTemplate({ userEmail, link })
+
     console.log(html)
     let mailOption = {
         from: 'rudra.kandel00@gmail.com',

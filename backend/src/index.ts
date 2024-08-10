@@ -3,12 +3,18 @@ import logger from './utils/logger';
 import { Server } from 'http';
 import dotenv from 'dotenv'
 import { closeConnection } from '@config/rabbitmq.config';
+import { initializeSocket } from '@socket/socket';
 
 dotenv.config();
 
 const port = Number(process.env.port) || 3000
 
-const server: Server = app.listen(port, (): void => {
+const server: Server = new Server(app);
+
+//Initialize socket
+initializeSocket(server);
+
+server.listen(port, (): void => {
   logger.info(`Server started in http://localhost:${port}`);
 });
 

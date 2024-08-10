@@ -2,6 +2,7 @@ import { initializeDatabase } from '@config/database.config';
 import { connectRabbitMQ } from '@config/rabbitmq.config';
 import errorHandler from '@middlewares/errorHandler.middleware';
 import seedEmailTemplates from '@seeders/emailTemplate.seeder';
+import { initializeSocket } from '@socket/socket';
 import corsOptionsDelegate from '@utils/corsOptionDelegate';
 import api from 'api';
 import constants from 'constants/constants';
@@ -31,12 +32,7 @@ initializeDatabase().then(async () => {
     await seedEmailTemplates()
 })
 //connect rabbitmq
-
-
-connectRabbitMQ()
-
-
-
+connectRabbitMQ();
 
 app.use(constants.API_ROOT_PATH, api);
 

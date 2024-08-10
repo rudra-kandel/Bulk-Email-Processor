@@ -10,7 +10,7 @@ const corsOptionsDelegate = (req: Request, callback: (err: Error | null, options
   const origin = req.headers.origin ? req.headers.origin.split("://")[1] : host;
   if (!req.headers.origin) req.headers.origin = origin;
 
-
+  console.log(origin, "Origin")
   if (allowedDomains.split(",").includes(origin)) {
     callback(null, { origin: true });
   } else {
