@@ -24,4 +24,7 @@ const unexpectedErrorHandler = (error: Error): void => {
 process.on('uncaughtException', unexpectedErrorHandler);
 process.on('unhandledRejection', (error: Error) => {
   throw error;
-}); 
+});
+
+process.on('SIGTERM', unexpectedErrorHandler);
+process.on('SIGINT', unexpectedErrorHandler);

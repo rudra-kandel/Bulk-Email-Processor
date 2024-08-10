@@ -1,4 +1,5 @@
 import { initializeDatabase } from '@config/database.config';
+import { connectRabbitMQ } from '@config/rabbitmq.config';
 import errorHandler from '@middlewares/errorHandler.middleware';
 import corsOptionsDelegate from '@utils/corsOptionDelegate';
 import api from 'api';
@@ -25,6 +26,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptionsDelegate));
 //database connection
 initializeDatabase();
+
+//connect rabbitmq
+connectRabbitMQ();
 
 app.use(constants.API_ROOT_PATH, api);
 
