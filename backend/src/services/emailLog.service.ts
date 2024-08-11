@@ -16,15 +16,7 @@ export const saveEmailLog = async (
     errorMessage?: string,
     retryCount: number = 0
 ) => {
-    console.log({
-        templateId: template.id,
-        userId,
-        email: userEmail,
-        status,
-
-    }
-    )
-    await EmailLog.create({
+    const logdata = await EmailLog.create({
         templateId: template.id,
         userId,
         email: userEmail,
@@ -32,6 +24,7 @@ export const saveEmailLog = async (
         errorMessage,
         retryCount,
     });
+    return logdata;
 };
 
 

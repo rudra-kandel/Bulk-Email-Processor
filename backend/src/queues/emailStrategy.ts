@@ -2,6 +2,8 @@ import { getChannel } from "@config/rabbitmq.config";
 import { EmailMessage } from "@interfaces/email";
 import { ErrorHandler, RetryHandler, SuccessHandler } from "@interfaces/queue";
 import { saveEmailLog } from "@services/emailLog.service";
+import { notifyClient } from "@services/socket.service";
+import { getRoomById } from "@utils/socket.util";
 
 // Error Handler Function
 export const handleEmailError: ErrorHandler<EmailMessage> = {
@@ -11,7 +13,9 @@ export const handleEmailError: ErrorHandler<EmailMessage> = {
         retryCount: number
     ): Promise<void> {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        await saveEmailLog(msg.userId, msg.template, msg.userEmail, 'failed', errorMessage, retryCount);
+        const emailLog = await saveEmailLog(msg.userId, msg.template, msg.userEmail, 'failed', errorMessage, retryCount);
+        const room = getRoomById(msg.userId)
+        notifyClient(room, emailLog);
     }
 }
 
@@ -19,7 +23,9 @@ export const handleEmailError: ErrorHandler<EmailMessage> = {
 export const handleEmailSuccess: SuccessHandler<EmailMessage> = {
     async handleSuccess(msg: EmailMessage): Promise<void> {
         console.log(msg)
-        await saveEmailLog(msg.userId, msg.template, msg.userEmail, 'sent');
+        const emailLog = await saveEmailLog(msg.userId, msg.template, msg.userEmail, 'sent');
+        const room = getRoomById(msg.userId)
+        notifyClient(room, emailLog);
     }
 };
 

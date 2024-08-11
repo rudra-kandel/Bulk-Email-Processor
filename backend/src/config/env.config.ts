@@ -21,7 +21,8 @@ const envsSchema = Joi.object()
     MAILTRAP_HOST: Joi.string().required(),
     MAILTRAP_PORT: Joi.number().required(),
     MAILTRAP_USERNAME: Joi.string().required(),
-    MAILTRAP_PASSWORD: Joi.string().required()
+    MAILTRAP_PASSWORD: Joi.string().required(),
+    APP_URL: Joi.string().required()
   })
   .unknown(true);
 
@@ -55,6 +56,7 @@ export default {
   smtpHost: envVars.MAILTRAP_HOST,
   smtpPort: envVars.MAILTRAP_PORT,
   smtpUser: envVars.MAILTRAP_USERNAME,
-  smtpPassword: envVars.MAILTRAP_PASSWORD
+  smtpPassword: envVars.MAILTRAP_PASSWORD,
+  appUrl: envVars.APP_URL
 
 };

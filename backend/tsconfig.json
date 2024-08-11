@@ -34,7 +34,8 @@
       "@services/*": ["services/*"],
       "@utils/*": ["utils/*"],
       "@templates/*": ["templates/*"],
-      "@interfaces/*": ["interfaces/*"]
+      "@interfaces/*": ["interfaces/*"],
+      "@socket/*":["socket/*"]
     },
     "plugins": [{ "transform": "ts-optchain/transform" }]
   },
