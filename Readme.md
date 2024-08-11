@@ -35,7 +35,7 @@ For usage instructions, including how to send bulk emails and view logs, see the
 
 ## API Endpoints
 
-A list of all available API endpoints can be found in the [API Endpoints Documentation](docs/apiEndpoints.md).
+A list of all available API endpoints can be found in the [API Endpoints Documentation](docs/apiEndPoints.md).
 
 ## Folder Structure
 
