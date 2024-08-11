@@ -6,14 +6,12 @@ import { Link, useNavigate } from "react-router-dom";
 import URL from "../../constants/apiurl";
 
 const Home = () => {
-  // const url = "https://936c-103-156-26-53.ngrok-free.app/";
+  const navigate = useNavigate();
+
   const token = tokenService.getToken().access;
-  if (!token) return navigate("/login");
   let headers = {
-    "ngrok-skip-browser-warning": "true",
     Authorization: "Bearer " + tokenService.getToken()?.access,
   };
-  const navigate = useNavigate();
 
   const sheetToJson = async (file) => {
     if (!file) {
@@ -80,80 +78,81 @@ const Home = () => {
   const [index, setIndex] = useState(null);
   const [csvContacts, setCsvContacts] = useState([]);
   useEffect(() => {
+    if (!token) return navigate("/login");
     axios
       .get(URL + "api/email-template/", { headers })
       .then((res) => {
         setTemplate(res.data);
       })
       .catch((e) => {
-        setTemplate({
-          data: [
-            {
-              id: "01913adb-5407-766f-a5a1-2a6c934917a6",
-              name: "Welcome Email",
-              subject: "Welcome to Our Service!",
-              body: "<h1>Welcome! {{userEmail}} </h1><p>Thank you for joining us.</p></h1><p>Thank you for joining us.</p>",
-              createdAt: "2024-08-10T05:55:38.120Z",
-              updatedAt: "2024-08-10T05:55:38.120Z",
-            },
-            {
-              id: "01913adb-5408-766f-a5a1-33799a59ab1b",
-              name: "Password Reset",
-              subject: "Reset Your Password",
-              body: '<h1>{{userEmail}} </h1> <p> Click <a href="{resetLink}">here</a> to reset your password.</p>',
-              createdAt: "2024-08-10T05:55:38.120Z",
-              updatedAt: "2024-08-10T05:55:38.120Z",
-            },
-            {
-              id: "01913cd5-af65-7003-9314-5bd5f81daf8b",
-              name: "Account Verification",
-              subject: "Verify Your Account",
-              body: '<h1>Verify Your Email</h1><p>Dear {{userEmail}}, please click <a href="{{verificationLink}}">here</a> to verify your account.</p>',
-              createdAt: "2024-08-10T15:08:42.726Z",
-              updatedAt: "2024-08-10T15:08:42.726Z",
-            },
-            {
-              id: "01913cd5-af66-7003-9314-65497fce4d4a",
-              name: "Order Confirmation",
-              subject: "Your Order has been Confirmed!",
-              body: "<h1>Order Confirmation</h1><p>Thank you for your purchase, {{userEmail}}! Your order number is {{orderNumber}}.</p>",
-              createdAt: "2024-08-10T15:08:42.726Z",
-              updatedAt: "2024-08-10T15:08:42.726Z",
-            },
-            {
-              id: "01913cd5-af66-7003-9314-6b396a051f14",
-              name: "Shipping Notification",
-              subject: "Your Order is on its Way!",
-              body: '<h1>Shipping Notification</h1><p>Hi {{userEmail}}, your order {{orderNumber}} has been shipped. Track it <a href="{{trackingLink}}">here</a>.</p>',
-              createdAt: "2024-08-10T15:08:42.726Z",
-              updatedAt: "2024-08-10T15:08:42.726Z",
-            },
-            {
-              id: "01913cd5-af66-7003-9314-7730e2b704e0",
-              name: "Subscription Renewal Reminder",
-              subject: "Your Subscription is About to Expire",
-              body: '<h1>Subscription Renewal Reminder</h1><p>Dear {{userEmail}}, your subscription will expire on {{expiryDate}}. Renew it <a href="{{renewalLink}}">here</a>.</p>',
-              createdAt: "2024-08-10T15:08:42.726Z",
-              updatedAt: "2024-08-10T15:08:42.726Z",
-            },
-            {
-              id: "01913cd5-af66-7003-9314-783eddfa6a36",
-              name: "Event Invitation",
-              subject: "You’re Invited to Our Event!",
-              body: '<h1>Event Invitation</h1><p>Hello {{userEmail}}, we’re excited to invite you to our upcoming event. Click <a href="{{eventLink}}">here</a> for more details.</p>',
-              createdAt: "2024-08-10T15:08:42.726Z",
-              updatedAt: "2024-08-10T15:08:42.726Z",
-            },
-            {
-              id: "01913cd5-af66-7003-9314-85c5d2f05e7d",
-              name: "Feedback Request",
-              subject: "We Value Your Feedback",
-              body: '<h1>Feedback Request</h1><p>Hi {{userEmail}}, we’d love to hear your thoughts on our service. Please provide your feedback <a href="{{feedbackLink}}">here</a>.</p>',
-              createdAt: "2024-08-10T15:08:42.726Z",
-              updatedAt: "2024-08-10T15:08:42.726Z",
-            },
-          ],
-        });
+        // setTemplate({
+        //   data: [
+        //     {
+        //       id: "01913adb-5407-766f-a5a1-2a6c934917a6",
+        //       name: "Welcome Email",
+        //       subject: "Welcome to Our Service!",
+        //       body: "<h1>Welcome! {{userEmail}} </h1><p>Thank you for joining us.</p></h1><p>Thank you for joining us.</p>",
+        //       createdAt: "2024-08-10T05:55:38.120Z",
+        //       updatedAt: "2024-08-10T05:55:38.120Z",
+        //     },
+        //     {
+        //       id: "01913adb-5408-766f-a5a1-33799a59ab1b",
+        //       name: "Password Reset",
+        //       subject: "Reset Your Password",
+        //       body: '<h1>{{userEmail}} </h1> <p> Click <a href="{resetLink}">here</a> to reset your password.</p>',
+        //       createdAt: "2024-08-10T05:55:38.120Z",
+        //       updatedAt: "2024-08-10T05:55:38.120Z",
+        //     },
+        //     {
+        //       id: "01913cd5-af65-7003-9314-5bd5f81daf8b",
+        //       name: "Account Verification",
+        //       subject: "Verify Your Account",
+        //       body: '<h1>Verify Your Email</h1><p>Dear {{userEmail}}, please click <a href="{{verificationLink}}">here</a> to verify your account.</p>',
+        //       createdAt: "2024-08-10T15:08:42.726Z",
+        //       updatedAt: "2024-08-10T15:08:42.726Z",
+        //     },
+        //     {
+        //       id: "01913cd5-af66-7003-9314-65497fce4d4a",
+        //       name: "Order Confirmation",
+        //       subject: "Your Order has been Confirmed!",
+        //       body: "<h1>Order Confirmation</h1><p>Thank you for your purchase, {{userEmail}}! Your order number is {{orderNumber}}.</p>",
+        //       createdAt: "2024-08-10T15:08:42.726Z",
+        //       updatedAt: "2024-08-10T15:08:42.726Z",
+        //     },
+        //     {
+        //       id: "01913cd5-af66-7003-9314-6b396a051f14",
+        //       name: "Shipping Notification",
+        //       subject: "Your Order is on its Way!",
+        //       body: '<h1>Shipping Notification</h1><p>Hi {{userEmail}}, your order {{orderNumber}} has been shipped. Track it <a href="{{trackingLink}}">here</a>.</p>',
+        //       createdAt: "2024-08-10T15:08:42.726Z",
+        //       updatedAt: "2024-08-10T15:08:42.726Z",
+        //     },
+        //     {
+        //       id: "01913cd5-af66-7003-9314-7730e2b704e0",
+        //       name: "Subscription Renewal Reminder",
+        //       subject: "Your Subscription is About to Expire",
+        //       body: '<h1>Subscription Renewal Reminder</h1><p>Dear {{userEmail}}, your subscription will expire on {{expiryDate}}. Renew it <a href="{{renewalLink}}">here</a>.</p>',
+        //       createdAt: "2024-08-10T15:08:42.726Z",
+        //       updatedAt: "2024-08-10T15:08:42.726Z",
+        //     },
+        //     {
+        //       id: "01913cd5-af66-7003-9314-783eddfa6a36",
+        //       name: "Event Invitation",
+        //       subject: "You’re Invited to Our Event!",
+        //       body: '<h1>Event Invitation</h1><p>Hello {{userEmail}}, we’re excited to invite you to our upcoming event. Click <a href="{{eventLink}}">here</a> for more details.</p>',
+        //       createdAt: "2024-08-10T15:08:42.726Z",
+        //       updatedAt: "2024-08-10T15:08:42.726Z",
+        //     },
+        //     {
+        //       id: "01913cd5-af66-7003-9314-85c5d2f05e7d",
+        //       name: "Feedback Request",
+        //       subject: "We Value Your Feedback",
+        //       body: '<h1>Feedback Request</h1><p>Hi {{userEmail}}, we’d love to hear your thoughts on our service. Please provide your feedback <a href="{{feedbackLink}}">here</a>.</p>',
+        //       createdAt: "2024-08-10T15:08:42.726Z",
+        //       updatedAt: "2024-08-10T15:08:42.726Z",
+        //     },
+        //   ],
+        // });
       });
   }, []);
   return (
