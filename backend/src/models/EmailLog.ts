@@ -6,7 +6,7 @@ import EmailTemplate from './EmailTemplate';
 import User from './User';
 
 export class EmailLog extends Model {
-
+    declare id: string
 }
 
 EmailLog.init({

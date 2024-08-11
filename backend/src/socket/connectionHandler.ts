@@ -16,13 +16,8 @@ const validateToken = (token: string, secret: string): Promise<any> => {
 
 export const handleConnection = async (client: Socket) => {
     try {
-        const token: any = client.handshake.headers.token;
-
-        const tokenStr: string = Array.isArray(token)
-            ? token.join(', ')  // Convert array to a comma-separated string
-            : token;
-        console.log(token)
-        const a = "jkfdk"
+        console.log(client.handshake.auth)
+        const { token } = client.handshake.auth;
         delete client.handshake.auth.token;
         const user: any = await validateToken(token, jwtSecret);
         if (!user) {
@@ -38,7 +33,6 @@ export const handleConnection = async (client: Socket) => {
         client.join(rooms);
 
         console.log(`User ${userId} connected and joined rooms: ${rooms}`);
-        console.log(`User ${userId} joined global room`);
     } catch (error) {
         console.error("Error handling connection:", error);
         client.emit("error", { message: "Internal server error", statusCode: 500 });

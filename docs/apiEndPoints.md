@@ -1,9 +1,3 @@
-
----
-
-**File: `docs/api-endpoints.md`**
-
-```markdown
 # API Endpoints
 
 ## Authentication
