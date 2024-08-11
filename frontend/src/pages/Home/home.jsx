@@ -156,62 +156,93 @@ const Home = () => {
       });
   }, []);
   return (
-    <main className="h-[100dvh] w-[100dvw] flex flex-col ">
+    <main className="h-screen w-screen flex flex-col bg-gray-100">
       <div
         className={
           index != null
-            ? "fixed h-[100dvh] w-[100dvw] grid place-content-center z-10"
+            ? "fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50"
             : "hidden"
         }
       >
         <form
           onSubmit={handleSubmit}
-          className="bg-white relative h-[50vh] w-[50vw] flex flex-col gap-2 p-4 w-full rounded"
+          className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
         >
-          <div className="flex justify-end">
-            <button
-              className="border w-[24px]"
-              onClick={(e) => {
-                e.preventDefault();
-                setIndex(null);
-              }}
+          <button
+            type="button"
+            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+            onClick={(e) => {
+              e.preventDefault();
+              setIndex(null);
+            }}
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              X
-            </button>
-          </div>
-          <div className="text-bold text-lg text-black">
-            Send {"  "}
-            <span className="text-bold text-2xl text-green-500">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+          <h2 className="text-lg font-semibold mb-4 text-gray-800">
+            Send{" "}
+            <span className="text-2xl text-green-600">
               {index != null && tempelate?.data[index].name}
-            </span>
-            {"  "} email
-          </div>
-          <label className="text-black text-sm">Upload CSV file</label>
-          <label className="block h-[20vh] grid place-content-center border border-dashed border-black rounded cursor-pointer">
-            <input type="file" required onChange={onFileChange} />
+            </span>{" "}
+            email
+          </h2>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Upload CSV file
+          </label>
+          <label className="block p-4 border border-dashed border-gray-300 rounded-lg bg-gray-50 cursor-pointer">
+            <input
+              type="file"
+              accept=".csv"
+              required
+              onChange={onFileChange}
+              className="sr-only"
+            />
+            <span className="text-gray-600">Choose file</span>
           </label>
           <button
-            className="border p-2 rounded border-black text-black"
             type="submit"
+            className="mt-4 w-full py-2 px-4 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700 transition duration-300"
           >
             Submit
           </button>
         </form>
       </div>
 
-      <nav className="w-full flex justify-between px-10 py-5">
-        <Link to="/logs">View Logs</Link>
-        <button onClick={logout}>Log Out</button>
+      <nav className="flex justify-between items-center px-6 py-4 bg-gray-800 text-white">
+        <Link to="/logs" className="hover:underline">
+          View Logs
+        </Link>
+        <button
+          onClick={logout}
+          className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg"
+        >
+          Log Out
+        </button>
       </nav>
-      <div className=" px-10 py-5 h-full grid grid-cols-4 gap-4">
+
+      <div className="px-6 py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {tempelate?.data.map((data, index) => (
           <div
-            className="border border-gray cursor-pointer p-2 rounded"
+            className="border border-gray-300 rounded-lg p-4 bg-white shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
             key={index}
             onClick={() => setIndex(index)}
           >
-            <h2 className="text-lg font-bold mb-2">{data.name}</h2>
-            <div>{data.body}</div>
+            <h2 className="text-xl font-bold mb-2 text-gray-800">
+              {data.name}
+            </h2>
+            <div className="text-gray-600">{data.body}</div>
           </div>
         ))}
       </div>

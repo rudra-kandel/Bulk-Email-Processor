@@ -92,7 +92,7 @@ export default function Logs() {
     navigate("/login");
   }
   return (
-    <main className="h-[100dvh] w-[100dvw] flex flex-col ">
+    <main className="h-[100dvh] w-[100dvw] flex flex-col bg-white ">
       <nav className="w-full flex justify-between px-10 py-5">
         <Link to="/">Home</Link>
         <button onClick={logout}>Log Out</button>
