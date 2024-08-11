@@ -7,13 +7,12 @@
 
 ## Email Templates
 
-- **GET** `/api/templates` - Get all email templates
-- **POST** `/api/templates` - Create a new email template
+- **GET** `/api/email-template/` - Get all email templates
 
 ## Email Sending
 
-- **POST** `/api/email/send` - Send bulk emails
+- **POST** `/api/send-bulk-email/` - Send bulk emails
 
 ## Logs
 
-- **GET** `/api/logs` - Get all email logs
+- **GET** `/api/logs/` - Get all email logs
