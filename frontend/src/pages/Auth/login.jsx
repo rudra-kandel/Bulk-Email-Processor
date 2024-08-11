@@ -6,12 +6,11 @@ import { useNavigate } from "react-router-dom";
 import tokenService from "@services/service-token";
 import URL from "../../constants/apiurl";
 
-
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  // const url = "https://936c-103-156-26-53.ngrok-free.app/";
+
   async function handleSubmit(e) {
     e.preventDefault();
     const data = {
@@ -19,6 +18,7 @@ const Login = () => {
       password,
     };
     try {
+      console.log(URL);
       const res = await axios.post(URL + "api/auth/login", data);
       console.log("🚀 ~ handleSubmit ~ res:", res?.data?.data?.accessToken);
       tokenService.setToken(res?.data?.data?.accessToken);

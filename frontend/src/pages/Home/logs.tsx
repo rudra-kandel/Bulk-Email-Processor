@@ -1,40 +1,89 @@
 import tokenService from "@services/service-token";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import URL from "../../constants/apiurl";
 import { io } from "socket.io-client";
 
 export default function Logs() {
-  const navigate = useNavigate();
+  let arr;
   const [logs, setLogs] = useState([]);
+  const token = tokenService.getToken().access;
+  let headers = {
+    Authorization: "Bearer " + tokenService.getToken()?.access,
+  };
 
+  const navigate = useNavigate();
+  const firstRender = useRef(true);
+  let socket;
 
-  useEffect(() => {
-    let headers = {
-      "ngrok-skip-browser-warning": "true",
-      Authorization: "Bearer " + tokenService.getToken()?.access,
-    };
-    axios
-      .get(URL + "api/logs/?limit=15&page=1", { headers })
-      .then((res) => {
-        setLogs(res?.data.data ?? []);
-      })
-      .catch((e) => {
-        console.log("🚀 ~ axios.get ~ e:", e);
-        return {};
-      });
-    const socket = io(URL, {
+  const addDet = (res) => {
+    console.log("🚀 ~ socket.on ~ res:", res);
+    console.log(logs, arr, "logs");
+    let temp = [...arr];
+    console.log(temp);
+    temp.unshift({ ...res });
+    console.log(temp, "temp");
+    arr = [...temp];
+    setLogs([...temp]);
+  };
+
+  function setupSocket() {
+    socket = io(URL, {
       auth: {
-        token: tokenService.getToken()?.access,
+        token,
       },
     });
+
     socket.on("connect", () => {
       console.log("🚀 ~ socket.on ~ connected");
     });
-    socket.on("emailLog", (res) => {
-      console.log("🚀 ~ socket.on ~ res:", res);
-    });
+    socket.on("emailLog", addDet);
+  }
+
+  useEffect(() => {
+    if (!token) return navigate("/login");
+    if (firstRender.current) {
+      console.log("first render", firstRender.current);
+      // firstRender.current = false;
+      axios
+        .get(URL + "api/logs/?limit=15&page=1", { headers })
+        .then((res) => {
+          setLogs(res?.data.data);
+          arr = res?.data?.data ?? [];
+        })
+        .catch((e) => {
+          console.log("🚀 ~ axios.get ~ e:", e);
+          return {};
+        });
+      // setupSocket();
+      // return () => {
+      //   socket.off("connect"),
+      //     () => {
+      //       console.log("🚀 ~ socket.on ~ connected");
+      //     };
+      //   socket.off("emailLog", (res) => {
+      //     console.log("🚀 ~ socket.on ~ res:", res);
+      //   });
+      // };
+    }
+  }, []);
+  useEffect(() => {
+    if (!token) return navigate("/login");
+    if (firstRender.current) {
+      console.log("first render", firstRender.current);
+      firstRender.current = false;
+      setupSocket();
+      return () => {
+        socket.off("connect"),
+          () => {
+            console.log("🚀 ~ socket.on ~ connected");
+          };
+        socket.off("emailLog", (res) => {
+          console.log("🚀 ~ socket.on ~ res:", res);
+        });
+      };
+    }
   }, []);
 
   function logout(e) {

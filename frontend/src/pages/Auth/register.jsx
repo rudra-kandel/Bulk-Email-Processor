@@ -9,8 +9,7 @@ const SignUp = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  // const url =
-  //   import.meta.env.API_URL ?? "https://936c-103-156-26-53.ngrok-free.app/";
+
   async function handleSubmit(e) {
     e.preventDefault();
     const data = {
