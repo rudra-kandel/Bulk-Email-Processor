@@ -28,7 +28,7 @@ const openRoutes = [
     element: <Register />,
   },
   {
-    path: "logs",
+    path: navigationRoutes.logs,
     element: <Logs />,
   },
 ];
