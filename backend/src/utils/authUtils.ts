@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '@config/env.config';
 const { saltRounds, jwtSecret, jwtExpirationTime } = config
 
@@ -26,4 +26,9 @@ export const getAccessToken = (userId: string): string => {
 // Generate Refresh Token
 export const getRefreshToken = (userId: string): string => {
     return jwt.sign({ userId }, jwtSecret, { expiresIn: '7d' });
-};  
+};
+
+//verify token
+export const verifyToken = (token: string): JwtPayload => {
+    return jwt.verify(token, jwtSecret) as JwtPayload
+}

@@ -6,7 +6,6 @@ import { loginValidationSchema } from '../validations/auth/login.validation';
 import authentication from '@middlewares/auth.middleware';
 
 const router = Router();
-console.log("INSIDE AUTH ROUTES")
 router.post('/login', validateRequest(loginValidationSchema), login);
 router.post('/register', validateRequest(registerValidationSchema), register);
 

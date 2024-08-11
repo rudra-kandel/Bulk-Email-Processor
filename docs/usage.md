@@ -1,9 +1,3 @@
-
----
-
-**File: `docs/usage.md`**
-
-```markdown
 # Usage Guide
 
 ## User Authentication
@@ -19,7 +13,7 @@
 ## Sending Bulk Emails
 
 1. **Upload CSV File:** Upload a CSV file containing email addresses.
-    - Sample CSV format: [Download sample.csv](path/to/sample.csv)
+    - Sample CSV format: [Download sample.csv](sample.csv)
 2. **Choose Template:** Select the email template.
 3. **Send Emails:** Trigger the email sending process.
 

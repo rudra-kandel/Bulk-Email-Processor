@@ -8,11 +8,6 @@ export const getEmailTemplates = async (req: express.Request, res: express.Respo
     try {
         const templates = await EmailTemplate.findAll();
         sendSuccessResponse(res, httpStatus.OK, 'Email templates fetched successfully', templates)
-        // res.status(200).json({
-        //     status: 'success',
-        //     message: 'Email templates fetched successfully',
-        //     data: templates,
-        // });
     } catch (error) {
         res.status(500).json({
             status: 'error',

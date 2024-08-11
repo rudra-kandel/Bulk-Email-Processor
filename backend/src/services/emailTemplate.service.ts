@@ -1,12 +1,5 @@
 import EmailTemplate from "@models/EmailTemplate";
-import { emailQueue } from "@queues/email.queue";
 
-// export const sendBulkEmails = async (templateId: string, userList: string[]) => {
-//     userList.forEach(async (user) => {
-//         await emailQueue('emailQueue', { templateId, email: user.email });
-//     });
-//     // sendSuccessResponse(res, 202, 'Emails are being processed in the background');
-// };
 
 export const getOneTemplateById = async (templateId: string) => {
     const template = await EmailTemplate.findByPk(templateId);

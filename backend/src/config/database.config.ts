@@ -22,7 +22,7 @@ export const initializeDatabase = async () => {
         logger.info("Before seeding ......")
         // await seedEmailTemplates(sequelize)
     } catch (error) {
-        console.error('Unable to connect to the database:', error);
+        logger.error('Unable to connect to the database:', error);
         process.exit(1); // Exit process with a failure code
     }
 };

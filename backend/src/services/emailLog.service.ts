@@ -2,6 +2,8 @@
 import { EmailLog } from '@models/EmailLog';
 import EmailTemplate from '@models/EmailTemplate';
 import User from '@models/User';
+import AppError from '@utils/error';
+import httpStatus from 'http-status';
 
 export const saveEmailLog = async (
     userId: string,
@@ -24,8 +26,21 @@ export const saveEmailLog = async (
         errorMessage,
         retryCount,
     });
-    return logdata;
+    return await getOneEmalLog(logdata.id);
 };
+
+export const getOneEmalLog = async (id: string): Promise<EmailLog> => {
+    const result = await EmailLog.findOne({
+        where: { id },
+        include: [{
+            model: User,
+            as: 'user'
+        }]
+    })
+    if (!result) throw new AppError(httpStatus.NOT_FOUND, "Email log not found"
+    )
+    return result;
+}
 
 
 

@@ -21,7 +21,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
         const verificationLink = `${appUrl}/auth/verify-email/${verificationToken}`
 
-        // TODO: Send verification email with the token
+        //send mail to user to verify 
         const template = await getOneTemplateByName('Account Verification')
         sendMail(template, newUser.email, verificationLink);
 
