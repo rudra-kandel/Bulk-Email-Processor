@@ -3,12 +3,14 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toastFail, toastSuccess } from "@services/service-toast";
+import URL from "../../constants/apiurl";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const url = import.meta.env.API_URL?? "https://936c-103-156-26-53.ngrok-free.app/";
+  // const url =
+  //   import.meta.env.API_URL ?? "https://936c-103-156-26-53.ngrok-free.app/";
   async function handleSubmit(e) {
     e.preventDefault();
     const data = {
@@ -16,7 +18,7 @@ const SignUp = () => {
       password,
     };
     try {
-      const res = await axios.post(url + "api/auth/register", data);
+      const res = await axios.post(URL + "api/auth/register", data);
       toastSuccess("Signd up Sucessfully");
       navigate("/login");
       console.log("🚀 ~ handleSubmit ~ res:", res);
