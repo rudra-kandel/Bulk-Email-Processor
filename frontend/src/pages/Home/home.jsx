@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import tokenService from "@services/service-token";
 import { Link, useNavigate } from "react-router-dom";
+import URL from "../../constants/apiurl";
 
 const Home = () => {
-  const url = "https://936c-103-156-26-53.ngrok-free.app/";
+  // const url = "https://936c-103-156-26-53.ngrok-free.app/";
   const token = tokenService.getToken().access;
   if (!token) return navigate("/login");
   let headers = {
@@ -67,7 +68,7 @@ const Home = () => {
       userEmails: csvContacts,
     };
     try {
-      const res = await axios.post(url + "api/send-bulk-email", payload, {
+      const res = await axios.post(URL + "api/send-bulk-email", payload, {
         headers,
       });
       setIndex(null);
@@ -80,7 +81,7 @@ const Home = () => {
   const [csvContacts, setCsvContacts] = useState([]);
   useEffect(() => {
     axios
-      .get(url + "api/email-template/", { headers })
+      .get(URL + "api/email-template/", { headers })
       .then((res) => {
         setTemplate(res.data);
       })
@@ -156,7 +157,7 @@ const Home = () => {
       });
   }, []);
   return (
-    <main className="border border-white h-[100dvh] w-[100dvw] flex flex-col ">
+    <main className="h-[100dvh] w-[100dvw] flex flex-col ">
       <div
         className={
           index != null
@@ -188,7 +189,7 @@ const Home = () => {
           </div>
           <label className="text-black text-sm">Upload CSV file</label>
           <label className="block h-[20vh] grid place-content-center border border-dashed border-black rounded cursor-pointer">
-            <input type="file" onChange={onFileChange} />
+            <input type="file" required onChange={onFileChange} />
           </label>
           <button
             className="border p-2 rounded border-black text-black"
@@ -203,7 +204,7 @@ const Home = () => {
         <Link to="/logs">View Logs</Link>
         <button onClick={logout}>Log Out</button>
       </nav>
-      <div className="border px-10 py-5 h-full grid grid-cols-4 gap-4">
+      <div className=" px-10 py-5 h-full grid grid-cols-4 gap-4">
         {tempelate?.data.map((data, index) => (
           <div
             className="border border-gray cursor-pointer p-2 rounded"
