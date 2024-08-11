@@ -7,7 +7,7 @@ import { initializeSocket } from '@socket/socket';
 
 dotenv.config();
 
-const port = Number(process.env.port) || 3000
+const port = Number(process.env.PORT) || 3000
 
 const server: Server = new Server(app);
 

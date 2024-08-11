@@ -70,8 +70,10 @@ const Home = () => {
         headers,
       });
       setIndex(null);
+      navigate("/logs");
+      toastSuccess("Email sent sucessfully");
     } catch (e) {
-      console.log("🚀 ~ handleSubmit ~ e:", e);
+      toastFail(e.response?.data?.message ?? "Sorry couldnt send email");
     }
   }
   const [tempelate, setTemplate] = useState();
@@ -85,6 +87,7 @@ const Home = () => {
         setTemplate(res.data);
       })
       .catch((e) => {
+        toastFail(e.response?.data?.message ?? "Sorry couldnt get templates");
         // setTemplate({
         //   data: [
         //     {

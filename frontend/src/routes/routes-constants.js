@@ -4,4 +4,5 @@ export const navigationRoutes = {
   signup: "/signup",
   all: "*",
   no_match: "*",
+  logs: "logs",
 };

@@ -26,7 +26,6 @@ export const createConsumer = <T>(options: ConsumerOptions<T>) => {
                 await processMessage(parsedMsg);
 
                 await successHandler.handleSuccess(parsedMsg)
-                console.log(6, "after sucess")
                 channel.ack(msg); // Acknowledge message as processed
             } catch (error) {
                 await errorHandler.handleError(error as Error, parsedMsg, retryCount);
