@@ -1,38 +1,59 @@
 import { ILoginUser, IRegisterUser } from '@interfaces/user';
 import { loginUser, registerUser, verifyUserEmail } from '@services/user.service';
-import { getEmailVerificationToken } from '@utils/authUtils';
+import { getEmailVerificationToken, verifyToken } from '@utils/authUtils';
 import { sendSuccessResponse } from '@utils/response';
 import { NextFunction, Request, Response } from 'express';
 import httpContext from 'express-http-context';
 import httpStatus from 'http-status';
+import config from '@config/env.config'
+import { getOneTemplateByName } from '@services/emailTemplate.service';
+import { sendMail } from '@utils/sendEmail.util';
+const { appUrl } = config
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
-    const userDto: IRegisterUser = req.body;
+    try {
+        const userDto: IRegisterUser = req.body;
 
-    const newUser = await registerUser(userDto);
+        const newUser = await registerUser(userDto);
 
-    // Generate a verification token
-    const verificationToken = getEmailVerificationToken(newUser.id)
+        // Generate a verification token
+        const verificationToken = getEmailVerificationToken(newUser.id)
 
-    // TODO: Send verification email with the token
+        const verificationLink = `${appUrl}/auth/verify-email/${verificationToken}`
 
-    return sendSuccessResponse(res, httpStatus.CREATED, "Registered Sucessfully.Please check your email for verification")
+        //send mail to user to verify 
+        const template = await getOneTemplateByName('Account Verification')
+        sendMail(template, newUser.email, verificationLink);
+
+        return sendSuccessResponse(res, httpStatus.CREATED, "Registered Sucessfully.Please check your email for verification")
+    } catch (error) {
+        next(error)
+    }
 };
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
-    const userLoginDto: ILoginUser = req.body
+    try {
+        const userLoginDto: ILoginUser = req.body
 
-    const token = await loginUser(userLoginDto);
+        const token = await loginUser(userLoginDto);
 
-    return sendSuccessResponse(res, httpStatus.OK, "Login Sucessful", token)
+        return sendSuccessResponse(res, httpStatus.OK, "Login Sucessful", token)
+    } catch (error) {
+        next(error)
+    }
 };
 
 const verifyEmail = async (req: Request, res: Response, next: NextFunction) => {
-    const userContext = httpContext.get('user');
+    try {
+        const { token } = req.params;
+        const decoded = verifyToken(token)
 
-    await verifyUserEmail(userContext.userId);
+        await verifyUserEmail(decoded.userId);
 
-    return sendSuccessResponse(res, httpStatus.OK, 'Email verified successfully')
+        return sendSuccessResponse(res, httpStatus.OK, 'Email verified successfully')
+    } catch (error) {
+        next(error)
+    }
 };
 
 export { login, register, verifyEmail };
