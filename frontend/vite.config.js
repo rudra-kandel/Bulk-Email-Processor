@@ -7,8 +7,12 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [react()],
   server: {
-    open: true,
+    open: false,
     port: 4001,
+    host: true,
+    watch: {
+      usePolling: true,
+    },
   },
   resolve: {
     alias: {

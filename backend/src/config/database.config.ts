@@ -18,7 +18,7 @@ export const initializeDatabase = async () => {
     try {
         await sequelize.authenticate();
         logger.info('Database connection has been established successfully.');
-        // await sequelize.sync({ force: true });
+        await sequelize.sync({ force: true });
         logger.info("Before seeding ......")
         // await seedEmailTemplates(sequelize)
     } catch (error) {

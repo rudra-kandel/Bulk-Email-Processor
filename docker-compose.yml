@@ -1,59 +1,45 @@
 version: '3.8'
 
 services:
+  database:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+   
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "15672:15672"  
+      - "5672:5672"
+
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
       - "4000:4000"
-    depends_on:
-      - rabbitmq
-      - postgres
-    environment:
-      DATABASE_URL: postgres://postgres:password@postgres:5432/mydatabase
-      RABBITMQ_URL: amqp://rabbitmq:5672
+    env_file:
+      - ./backend/.env
     volumes:
-      - ./backend:/usr/src/app
-    networks:
-      - app-network
-
+      - ./backend:/usr/src/backend
+      - /usr/src/backend/node_modules
+    depends_on:
+      - database
+      - rabbitmq
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
       - "4001:4001"
+    env_file:
+      - ./frontend/.env
+    volumes:
+      - ./frontend:/usr/src/frontend
+      - /usr/src/frontend/node_modules
     depends_on:
       - backend
-    volumes:
-      - ./frontend:/usr/src/app
-    networks:
-      - app-network
-
-  rabbitmq:
-    image: "rabbitmq:3-management"
-    ports:
-      - "15672:15672"  # Management UI
-      - "5672:5672"    # RabbitMQ main port
-    networks:
-      - app-network
-
-  postgres:
-    image: postgres:13
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydatabase
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - app-network
-
-volumes:
-  postgres_data:
-
-networks:
-  app-network:
