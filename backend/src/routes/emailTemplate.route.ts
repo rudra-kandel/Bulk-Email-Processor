@@ -8,7 +8,7 @@ import { getEmailTemplates } from '@controllers/emailTemplate.controller';
 
 const router = Router();
 
-router.get('/', authentication, getEmailTemplates);
+router.get('/', getEmailTemplates);
 
 // router.post('/login', validateRequest(loginValidationSchema), login);
 

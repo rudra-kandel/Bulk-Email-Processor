@@ -1,8 +1,8 @@
+import { ILoginUser, IRegisterUser } from '@interfaces/user';
 import User from '@models/User';
-import { checkPassword, getAccessToken, getEmailVerificationToken, hashPassword } from '@utils/authUtils';
+import { checkPassword, getAccessToken, hashPassword } from '@utils/authUtils';
 import AppError from '@utils/error';
 import httpStatus from 'http-status';
-import { ILoginUser, IRegisterUser } from '@interfaces/user';
 
 const registerUser = async (userDto: IRegisterUser) => {
     const { email, password } = userDto;
