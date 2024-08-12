@@ -6,7 +6,7 @@ import { sendMail } from "@utils/sendEmail.util";
 export const processEmailJob = async (jobData: EmailMessage) => {
     try {
         const { template, userEmail, userId } = jobData;
-        sendMail(template, userEmail);
+        await sendMail(template, userEmail);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
         throw error;

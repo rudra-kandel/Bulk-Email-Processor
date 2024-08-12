@@ -2,6 +2,7 @@ import { Socket } from "socket.io";
 import * as jwt from "jsonwebtoken";
 import { getRoomById } from "@utils/socket.util";
 import config from "@config/env.config"
+import logger from "@utils/logger";
 const { jwtSecret } = config
 
 const validateToken = (token: string, secret: string): Promise<any> => {
@@ -16,7 +17,6 @@ const validateToken = (token: string, secret: string): Promise<any> => {
 
 export const handleConnection = async (client: Socket) => {
     try {
-        console.log(client.handshake.auth)
         const { token } = client.handshake.auth;
         delete client.handshake.auth.token;
         const user: any = await validateToken(token, jwtSecret);
@@ -32,9 +32,9 @@ export const handleConnection = async (client: Socket) => {
         const rooms = getRoomById(userId);
         client.join(rooms);
 
-        console.log(`User ${userId} connected and joined rooms: ${rooms}`);
+        logger.info(`User ${userId} connected and joined rooms: ${rooms}`);
     } catch (error) {
-        console.error("Error handling connection:", error);
+        logger.error("Error handling connection:", error);
         client.emit("error", { message: "Internal server error", statusCode: 500 });
         client.disconnect(true);
     }

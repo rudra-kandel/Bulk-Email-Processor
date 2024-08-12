@@ -14,7 +14,9 @@ const SignUp = () => {
     const data = { email, password };
     try {
       const res = await axios.post(`${URL}api/auth/register`, data);
-      toastSuccess("Signed Up Successfully");
+      toastSuccess(
+        "Signed Up Successfully. Please check email for verification",
+      );
       navigate("/login");
     } catch (e) {
       toastFail(e.response?.data?.message ?? "Sorry, couldn't sign up");
