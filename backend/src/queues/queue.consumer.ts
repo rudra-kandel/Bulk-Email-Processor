@@ -14,7 +14,6 @@ export const createConsumer = <T>(options: ConsumerOptions<T>) => {
         successHandler = handleQueueSuccess as SuccessHandler<T>,
         retryHandler = handleQueueRetry as RetryHandler<T>,
     } = options;
-    console.log(3, "queue consuemr")
     const channel = getChannel();
 
     channel.consume(queueName, async (msg: ConsumeMessage | null) => {

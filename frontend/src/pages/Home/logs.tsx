@@ -92,7 +92,7 @@ export default function Logs() {
     navigate("/login");
   }
   return (
-    <main className="h-[100dvh] w-[100dvw] flex flex-col bg-white ">
+    <main className="min-h-screen w-[100dvw] flex flex-col bg-white ">
       <nav className="w-full flex justify-between px-10 py-5">
         <Link to="/">Home</Link>
         <button onClick={logout}>Log Out</button>
@@ -106,6 +106,8 @@ export default function Logs() {
               <th>Email</th>
               <th>Sent By</th>
               <th>Status</th>
+              <th>Error Message</th>
+              <th>Retry count</th>
             </tr>
           </thead>
           <tbody>
@@ -115,7 +117,19 @@ export default function Logs() {
                 <td className="text-center p-2">{data.createdAt}</td>
                 <td className="text-center p-2">{data.email}</td>
                 <td className="text-center p-2">{data.user.email}</td>
-                <td className="text-center p-2">{data.status}</td>
+                <td
+                  className={`text-center p-2 ${
+                    data.status === "success"
+                      ? "text-green-500"
+                      : data.status === "failed"
+                        ? "text-red-500"
+                        : ""
+                  }`}
+                >
+                  {data.status}
+                </td>
+                <td className="text-center p-2">{data.errorMessage ?? "-"}</td>
+                <td className="text-center p-2"> {data.retryCount}</td>
               </tr>
             ))}
           </tbody>

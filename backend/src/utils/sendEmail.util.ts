@@ -6,7 +6,16 @@ import Handlebars from 'handlebars'
 
 const { smtpHost, smtpPort, smtpUser, smtpPassword } = config
 
-export const sendMail = (template: { id: string, name: string, body: string, subject: string }, userEmail: string, link?: string) => {
+export const sendMail = async (
+    template: {
+        id: string,
+        name: string,
+        body: string,
+        subject: string
+    },
+    userEmail: string,
+    link?: string
+): Promise<void> => {
     const transporter = nodemailer.createTransport({
         host: smtpHost,
         port: smtpPort,
@@ -16,25 +25,24 @@ export const sendMail = (template: { id: string, name: string, body: string, sub
         }
     })
     const compileTemplate = Handlebars.compile(template.body)
-    console.log(userEmail)
-    console.log(link)
     const html = compileTemplate({ userEmail, link })
 
-    console.log(html)
     let mailOption = {
         from: 'rudra.kandel00@gmail.com',
         to: userEmail,
         subject: template.subject,
         html
     }
-
-    transporter.sendMail(mailOption, (error, info) => {
-        if (error) {
-            logger.error("error sending mail"
-            )
-        }
-        if (info) {
-            logger.info("Email sent sucessfully")
-        }
+    return new Promise((resolve, reject) => {
+        transporter.sendMail(mailOption, (error, info) => {
+            if (error) {
+                logger.error("error sending mail")
+                reject(error)
+            }
+            resolve()
+            if (info) {
+                logger.info("Email sent sucessfully")
+            }
+        })
     })
 }
